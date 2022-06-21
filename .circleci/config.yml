@@ -19,6 +19,10 @@ jobs:
       - add_ssh_keys:
           fingerprints: ['7f:72:b6:cf:f5:57:68:28:63:04:b9:53:be:44:7b:f9']
       - run: apk add --update ansible
+      - run:
+          name: Configure server
+          command: |
+            ansible-playbook -i inventory.txt main4.yml
 workflows:
   create-infrastructure:
     jobs:
