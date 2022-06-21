@@ -1,6 +1,6 @@
 ---
 - name: Exercise #1
-  hosts: all
+  hosts: 3.93.247.17
   ####before ec2-user
   user: ubuntu
   become: true

@@ -23,7 +23,9 @@ jobs:
       - run:
           name: Configure server
           command: |
-            ansible-playbook -vvvv -i inventory.txt main.yml
+            ansible-playbook -vvvv main.yml
+
+        ### removed -i inventory.txt from before main.yml
 workflows:
   create-infrastructure:
     jobs:
