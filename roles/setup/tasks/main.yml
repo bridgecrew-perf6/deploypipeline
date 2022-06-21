@@ -20,14 +20,19 @@
     name: ['nodejs', 'npm']
     state: latest
     update_cache: yes
+########## sudo apt install pm2 doesnt work out of the box #######
+########## alternatively I'll do the following: 
+- name: 'install pm2 manually'
+  shell: |
+    sudo npm install pm2 -g
 
-- name: 'install pm2'
-  become: yes
-  npm:
-    name: pm2
-    global: yes
-    production: yes
-    state: present
+# - name: 'install pm2'
+#   become: yes
+#   npm:
+#     name: pm2
+#     global: yes
+#     production: yes
+#     state: present
 - name: Creates directory
   file:
     path: ~/web
