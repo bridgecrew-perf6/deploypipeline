@@ -17,13 +17,15 @@ jobs:
     steps:
       - checkout
       - add_ssh_keys:
-          fingerprints: ['15:19:28:b3:5c:f0:5d:8f:3d:0f:a3:d0:35:bb:68:2b']
-          ###### FINGERPRINTS: Ubuntu (pri) above ### before ec2-user
-      - run: apk add --update ansible
+          fingerprints: ['15:19:28:b3:5c:f0:5d:8f:3d:0f:a3:d0:35:bb:68:2b'] # You can get this ID in the section where you registered the SSH Key
+      - run:
+          name: Install dependencies
+          command: |
+            apk add --update ansible
       - run:
           name: Configure server
           command: |
-            ansible-playbook -vvvv -i inventory.txt main.yml
+            ansible-playbook -i inventory.txt main.yml
 
         ### removed -i inventory.txt from before main.yml
 workflows:
