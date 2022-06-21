@@ -2,16 +2,26 @@ version: 2.1
 orbs:
   aws-cli: circleci/aws-cli@2.0.3
 jobs:
-  run-iac-template:
+  create-infrastructure:
     docker:
       - image: amazon/aws-cli
-    steps: 
-      - checkout 
-      - run: 
+    steps:
+      - checkout
+      - run:
           name: Create Cloudformation Stack
           command: |
             aws cloudformation deploy --template-file template.yml --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:5} --region us-east-1
+  # configure-infrastructure:
+  #   docker: 
+  #     - image: python:3.7-alpine3.11
+  #   steps: 
+  #     - checkout
+  #     - add_ssh_keys:
+
 workflows:
   create-infrastructure:
     jobs:
-      - run-iac-template
+      - create-infrastructure
+      # - configure-infrastructure: 
+      #     requires: 
+      #       - create-infrastructure
