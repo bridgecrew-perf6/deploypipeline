@@ -1,11 +1,10 @@
 ---
 - name: configure Server #1
   hosts: all
-  ####before ec2-user
   user: ubuntu
   become: true
-  become_method: sudo
-  become_user: root
+  # become_method: sudo
+  # become_user: root
   roles:
     - setup
 # ansible-playbook -i inventory.txt main.yml --private-key=~/udacity-ansible.pem
