@@ -1,6 +1,13 @@
 version: 2.1
 orbs:
   aws-cli: circleci/aws-cli@2.0.3
+commands: 
+  destroy_environment: 
+    steps: 
+      - run: 
+          name: Destroy environment
+          command: |
+            aws cloudformation delete-stack --stack-name prod-${CIRCLE_WORKFLOW_ID}
 jobs:
   # create-infrastructure:
   #   docker:
@@ -18,18 +25,45 @@ jobs:
       - checkout
       - add_ssh_keys:
           fingerprints: ['15:19:28:b3:5c:f0:5d:8f:3d:0f:a3:d0:35:bb:68:2b'] # You can get this ID in the section where you registered the SSH Key
-      - run:
-          name: Install dependencies
-          command: |
-            apk add --update ansible
+      # - run:
+      #     name: Install dependencies
+      #     command: |
+      #       apk add --update ansible
       - run:
           name: Configure server
           command: |
             ansible-playbook -vvvv -i inventory.txt main.yml
 
         ### removed -i inventory.txt from before main.yml
+  smoke-test:
+    docker:
+      - image: alpine:latest
+    steps:
+      - run: apk add --update curl
+      - run:
+          name: smoke test
+          command: |
+            URL="https://blog.udacity.com/"
+            if curl -s --head ${URL}
+            then 
+              return 0 
+            else 
+              return 1
+            fi
+      ############ intentional fail! 
+      ####  - run: return 1 
+      - destroy_environment
+        when: on_fail
 workflows:
   create-infrastructure:
     jobs:
       # - create-infrastructure
       - configure-infrastructure
+      # - smoke-test
+######PROBLEM:
+# via ssh -i ~/....sshkey.pem ubuntu@ip loggin in to the instance is no problem
+# maybe check if ansible-playbook -i inventory.txt main.yml --private-key works???
+# logging into the instance via ssh via the cicleci script doesnt work so far under no circumstances
+# just for the sake of trying maybe put in other aws credentials ?
+
+### manually running the command with the private key works like a charm. 
