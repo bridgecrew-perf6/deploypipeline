@@ -51,7 +51,7 @@ jobs:
               return 1
             fi
       ############ intentional fail!
-      ####  - run: return 1
+      # - run: return 1
       # - destroy_environment
       #   when: on_fail
 workflows:
@@ -59,7 +59,7 @@ workflows:
     jobs:
       # - create-infrastructure
       - configure-infrastructure
-      # - smoke-test
+      - smoke-test
 ######PROBLEM:
 # via ssh -i ~/....sshkey.pem ubuntu@ip loggin in to the instance is no problem
 # maybe check if ansible-playbook -i inventory.txt main.yml --private-key works???
