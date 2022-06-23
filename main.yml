@@ -1,7 +1,7 @@
 ---
 - name: configure Server #1
   hosts: all
-  user: ec2-user
+  user: ubuntu
   become: true
   become_method: sudo
   become_user: root

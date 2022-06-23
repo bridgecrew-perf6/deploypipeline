@@ -1,0 +1,5 @@
+---
+- name: 'install pm2 manually'
+  shell: |
+    echo "hello world"
+    whoami
