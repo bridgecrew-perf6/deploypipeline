@@ -1,2 +1,2 @@
 [all]
-ec2-44-192-33-165.compute-1.amazonaws.com
+44.192.33.165
